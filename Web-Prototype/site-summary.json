@@ -1,0 +1,14 @@
+{
+  "generatedAt": "2026-06-02T05:13:52.550Z",
+  "sourceRoot": "D:\\바탕화면\\pyrevit\\DH_Standard.extension",
+  "excludedDirectories": [
+    "old"
+  ],
+  "total": 45,
+  "categories": {
+    "architecture": 13,
+    "structure": 20,
+    "sheet-general": 12
+  },
+  "files": 50
+}
