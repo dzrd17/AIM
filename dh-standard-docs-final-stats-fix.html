@@ -1,0 +1,97 @@
+
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stats Layout Update | DH Standard</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --surface: #ffffff;
+      --surface-warm: #ffef5a;
+      --fg: #000000;
+      --border: #000000;
+      --font-display: Arial Black, Impact, sans-serif;
+      --font-body: Arial, Helvetica, sans-serif;
+      --font-mono: "Courier New", ui-monospace, monospace;
+    }
+    body { background: var(--bg); color: var(--fg); font-family: var(--font-body); margin: 0; padding: 40px; }
+    .container { max-width: 800px; margin: 0 auto; }
+    
+    .stat-board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: var(--surface);
+      border: 3px solid var(--border);
+      box-shadow: 8px 8px 0 #000;
+      margin-bottom: 40px;
+    }
+    .stat {
+      padding: 24px;
+      border-right: 3px solid var(--border);
+      text-align: left;
+    }
+    .stat:last-child { border-right: 0; }
+    .stat strong {
+      display: block;
+      white-space: nowrap;
+      font-family: var(--font-display);
+      font-size: var(--stat-size, 64px);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+    }
+    .stat strong.word {
+      font-size: var(--stat-word-size, 42px);
+    }
+    .stat span {
+      display: block;
+      margin-top: 12px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: #666;
+    }
+
+    .card { background: var(--surface); border: 3px solid var(--border); padding: 24px; margin-bottom: 24px; }
+    .success-badge { display: inline-block; padding: 8px 16px; background: #00b050; color: white; font-weight: 700; margin-bottom: 24px; }
+    .hint-box { background: var(--surface-warm); padding: 16px; border: 2px solid var(--border); font-family: var(--font-mono); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="success-badge">STATS LAYOUT REFINED</div>
+    
+    <!-- 통계 보드 예시 -->
+    <div class="stat-board">
+      <div class="stat">
+        <strong style="--stat-size: 64px;">45</strong>
+        <span>현재 실행 스크립트</span>
+      </div>
+      <div class="stat">
+        <strong style="--stat-size: 64px;">03</strong>
+        <span>리본 탭</span>
+      </div>
+      <div class="stat">
+        <strong class="word" style="--stat-word-size: 42px;">NOW</strong>
+        <span>현재 배포본 기준</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>통계 텍스트 크기 조정 안내</h2>
+      <p>브라우저 검사 도구(Inspect)를 통해 실시간으로 크기를 튜닝할 수 있습니다.</p>
+      <div class="hint-box">
+        // [검사] 도구 사용법<br>
+        1. '45' 또는 '03' 클릭 -> element.style의 --stat-size 수정<br>
+        2. 'NOW' 클릭 -> element.style의 --stat-word-size 수정<br>
+        * white-space: nowrap 적용으로 텍스트가 줄바꿈되지 않습니다.
+      </div>
+    </div>
+
+    <div style="font-family: var(--font-mono); font-size: 12px; color: #666; margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px;">
+      Files Updated: index.html, dh-standard-pyrevit-docs.html, generate-site.js<br>
+      Fix: white-space: nowrap + CSS variable injection
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,1095 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>구조 기능 | DH Standard</title>
+  <style>
+:root {
+  --bg: #f5f1e8;
+  --surface: #ffffff;
+  --surface-warm: #ffef5a;
+  --fg: #000000;
+  --fg-2: #222222;
+  --muted: #555555;
+  --meta: #000000;
+  --border: #000000;
+  --border-soft: #000000;
+  --accent: #ffef5a;
+  --accent-on: #000000;
+  --accent-hover: color-mix(in oklab, var(--accent), black 8%);
+  --accent-active: color-mix(in oklab, var(--accent), black 14%);
+  --success: #00b050;
+  --warn: #ff8c00;
+  --danger: #ff2b2b;
+  --font-display: Arial Black, Impact, sans-serif;
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-mono: "Courier New", ui-monospace, monospace;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 17px;
+  --text-lg: 20px;
+  --text-xl: 28px;
+  --text-2xl: 42px;
+  --text-3xl: 55px;
+  --text-4xl: 55px;
+  --leading-body: 1.35;
+  --leading-tight: 0.98;
+  --tracking-display: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --section-y-desktop: 88px;
+  --section-y-tablet: 64px;
+  --section-y-phone: 44px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-pill: 9999px;
+  --elev-flat: none;
+  --elev-ring: 0 0 0 1px var(--border);
+  --elev-raised: 8px 8px 0 #000000;
+  --focus-ring: 0 0 0 4px #000000, 0 0 0 8px #ffef5a;
+  --motion-fast: 90ms;
+  --motion-base: 140ms;
+  --ease-standard: steps(2, end);
+  --container-max: 1160px;
+  --container-gutter-desktop: 36px;
+  --container-gutter-tablet: 24px;
+  --container-gutter-phone: 16px;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+html { max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  text-rendering: optimizeLegibility;
+}
+a { color: inherit; }
+button,
+input { font: inherit; }
+button { cursor: pointer; }
+h1,
+h2,
+h3,
+h4 { margin: 0; font-family: var(--font-display); line-height: var(--leading-tight); text-wrap: balance; }
+/*
+ * Wrapping contract:
+ * 1. Keep Korean word units together when a normal line break is available.
+ * 2. Let long English labels, API tokens, and paths break before they escape a box.
+ * 3. Keep every grid and flex child shrinkable with min-width: 0.
+ */
+:where(h1, h2, h3, h4, p, li, dt, dd, a, button, span, summary, strong) {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: keep-all;
+}
+p,
+li,
+dd { text-wrap: pretty; }
+:where(.meta, .tag, .chip, .tool-count, .source-path, .source-facts div) {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.skip-link {
+  position: fixed;
+  left: var(--space-4);
+  top: -80px;
+  z-index: 30;
+  padding: var(--space-3) var(--space-4);
+  background: var(--accent);
+  border: 3px solid var(--border);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+.skip-link:focus { top: var(--space-4); }
+.container {
+  width: min(100%, var(--container-max));
+  margin-inline: auto;
+  padding-inline: var(--container-gutter-desktop);
+}
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--surface);
+  border-bottom: 3px solid var(--border);
+}
+.topnav-inner {
+  min-height: 70px;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--fg);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: var(--logo-size, var(--text-lg));
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+.logo-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding-inline: var(--space-2);
+  background: var(--surface);
+  border: 3px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 900;
+}
+.display {
+  font-size: var(--display-size, clamp(32px, 6vw, 55px));
+  letter-spacing: -0.04em;
+  line-height: var(--leading-tight);
+  white-space: nowrap;
+  max-width: none;
+}
+@media (max-width: 920px) {
+  .display { white-space: normal; }
+}
+.ds-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); margin-top: var(--space-4); }
+.ds-table th, .ds-table td { padding: var(--space-3); text-align: left; border-bottom: 2px solid var(--border); }
+.ds-table th { background: var(--bg); font-family: var(--font-mono); font-weight: 700; text-transform: uppercase; font-size: var(--text-xs); }
+.ds-table tbody tr:hover { background: var(--surface-warm); }
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: -0.08em;
+}
+.nav-links {
+  display: flex;
+  align-items: stretch;
+  border-inline: 2px solid var(--border);
+}
+.nav-links a {
+  display: flex;
+  align-items: center;
+  padding-inline: var(--space-4);
+  border-right: 2px solid var(--border);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.nav-links a:last-child { border-right: 0; }
+.nav-links a:hover,
+.nav-links a:focus-visible { background: var(--accent); outline: 0; }
+.menu-toggle {
+  display: none;
+  align-self: center;
+  min-width: 44px;
+  min-height: 44px;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+.hero {
+  padding-block: clamp(var(--section-y-phone), 9vw, var(--section-y-desktop));
+  border-bottom: 3px solid var(--border);
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(260px, .65fr);
+  gap: var(--space-8);
+  align-items: stretch;
+}
+.hero-grid > *,
+.detail-layout > *,
+.category-grid > *,
+.workflow-grid > *,
+.tool-grid > *,
+.tool-card-top > *,
+.filter-bar > *,
+.prev-next > *,
+.footer-inner > * { min-width: 0; }
+.eyebrow,
+.meta,
+.tag,
+.chip,
+.tool-count,
+.source-path,
+.fact-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+.eyebrow {
+  display: inline-block;
+  margin: 0 0 var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  background: var(--accent);
+  border: 2px solid var(--border);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.display {
+  max-width: 100%;
+  font-size: clamp(32px, 8vw, 55px);
+  letter-spacing: -0.08em;
+  overflow: hidden;
+}
+.lead {
+  max-width: 64ch;
+  margin: var(--space-5) 0 0;
+  color: var(--fg-2);
+  font-size: var(--text-lg);
+}
+.hero-actions,
+.filter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+.btn {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border: 3px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--fg);
+  text-decoration: none;
+  font-weight: 700;
+  transition: transform var(--motion-fast) var(--ease-standard), background var(--motion-fast) var(--ease-standard);
+}
+.btn-primary { background: var(--accent); }
+.btn-secondary { background: var(--surface); }
+.btn:hover { background: var(--accent-hover); transform: translate(-2px, -2px); }
+.btn:active { background: var(--accent-active); transform: translate(0, 0); }
+.btn:disabled { cursor: not-allowed; opacity: .5; }
+.btn:focus-visible,
+.chip:focus-visible,
+.search:focus-visible,
+.menu-toggle:focus-visible,
+summary:focus-visible { outline: 0; box-shadow: var(--focus-ring); }
+.stat-board {
+  display: grid;
+  grid-template-columns: 1fr;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  box-shadow: var(--elev-raised);
+}
+.stat {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 3px solid var(--border);
+}
+.stat:last-child { border-bottom: 0; }
+.stat strong {
+  display: block;
+  max-width: 100%;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: var(--stat-size, clamp(var(--text-2xl), 5vw, 55px));
+  letter-spacing: -0.08em;
+  line-height: .9;
+  overflow: hidden;
+}
+.stat strong.word { font-size: var(--stat-word-size, clamp(var(--text-xl), 4vw, 50px)); }
+.stat span {
+  display: block;
+  margin-top: var(--space-4);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+.section {
+  padding-block: var(--section-y-desktop);
+  border-bottom: 3px solid var(--border);
+}
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+.section-head h2 {
+  max-width: 16ch;
+  font-size: clamp(var(--text-2xl), 5vw, var(--text-3xl));
+  letter-spacing: -0.07em;
+}
+.section-head p { max-width: 56ch; margin: 0; color: var(--muted); }
+.category-grid,
+.workflow-grid,
+.tool-grid {
+  display: grid;
+  gap: var(--space-5);
+}
+.category-grid { grid-template-columns: repeat(3, 1fr); }
+.workflow-grid { grid-template-columns: repeat(3, 1fr); }
+.tool-grid { grid-template-columns: repeat(2, 1fr); }
+.panel,
+.tile,
+.tool-card,
+.detail-card {
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.panel,
+.tile { padding: var(--space-6); }
+.panel { box-shadow: var(--elev-raised); }
+.panel h3,
+.tile h3,
+.tool-card h3 {
+  font-size: var(--text-xl);
+  letter-spacing: -0.05em;
+}
+.panel p,
+.tile p,
+.tool-card p { color: var(--muted); }
+.category-card {
+  display: flex;
+  min-height: 270px;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--fg);
+  text-decoration: none;
+}
+.category-card:hover,
+.category-card:focus-visible {
+  background: var(--accent);
+  outline: 0;
+  transform: translate(-3px, -3px);
+}
+.category-card .tool-count {
+  align-self: flex-start;
+  padding: var(--space-2) var(--space-3);
+  border: 2px solid var(--border);
+  font-weight: 700;
+}
+.step-list {
+  margin: var(--space-5) 0 0;
+  padding-left: var(--space-5);
+}
+.step-list li + li { margin-top: var(--space-2); }
+.filter-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: center;
+  margin-bottom: var(--space-6);
+}
+.search {
+  min-height: 52px;
+  width: 100%;
+  padding-inline: var(--space-4);
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--fg);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+.chip {
+  min-height: 38px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  font-weight: 700;
+}
+.chip:hover,
+.chip[aria-pressed="true"] { background: var(--accent); }
+.tool-card {
+  display: flex;
+  min-height: 245px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-5);
+}
+.tool-card:hover { box-shadow: var(--elev-raised); }
+.tool-card a { color: inherit; text-decoration: none; }
+.tool-card a:hover { text-decoration: underline; text-decoration-thickness: 3px; }
+.tool-card-top {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.tool-mark {
+  display: grid;
+  min-width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 2px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+.tag {
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--border);
+  font-weight: 700;
+}
+.result-note {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+.empty-state {
+  display: none;
+  padding: var(--space-8);
+  background: var(--surface);
+  border: 3px dashed var(--border);
+  text-align: center;
+}
+.detail-hero .display { max-width: 15ch; font-size: clamp(var(--text-2xl), 7vw, var(--text-4xl)); }
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+.breadcrumbs a:hover { background: var(--accent); }
+.detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+.detail-stack {
+  display: grid;
+  gap: var(--space-5);
+}
+.detail-card { padding: var(--space-6); }
+.detail-card h2 {
+  margin-bottom: var(--space-5);
+  font-size: var(--text-xl);
+  letter-spacing: -0.05em;
+}
+.detail-card p:first-of-type { margin-top: 0; }
+.detail-card p:last-child { margin-bottom: 0; }
+.fact-list {
+  display: grid;
+  grid-template-columns: minmax(120px, .35fr) minmax(0, 1fr);
+  margin: 0;
+  border-top: 2px solid var(--border);
+}
+.fact-list dt,
+.fact-list dd {
+  margin: 0;
+  padding: var(--space-3);
+  border-bottom: 2px solid var(--border);
+}
+.fact-list dt {
+  border-right: 2px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+.source-path {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  padding: var(--space-3);
+  background: var(--bg);
+  border: 2px solid var(--border);
+}
+.demo-slot {
+  display: grid;
+  min-width: 0;
+  aspect-ratio: 16 / 9;
+  align-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--bg);
+  border: 3px dashed var(--border);
+}
+.demo-slot h3 {
+  max-width: 18ch;
+  font-size: var(--text-xl);
+  letter-spacing: -0.05em;
+}
+.demo-slot p { margin-bottom: 0; }
+.demo-ratio {
+  justify-self: start;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+.callout {
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 3px solid var(--border);
+  box-shadow: var(--elev-raised);
+  font-weight: 700;
+}
+details { border-top: 2px solid var(--border); }
+summary {
+  padding-block: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+.source-facts {
+  display: grid;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+}
+.source-facts div {
+  padding: var(--space-3);
+  background: var(--bg);
+  border: 2px solid var(--border);
+}
+.source-facts strong {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+.prev-next {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+.prev-next a { min-height: 80px; }
+.footer {
+  padding-block: var(--space-8);
+  background: var(--fg);
+  color: var(--surface);
+}
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+[hidden] { display: none !important; }
+@media (max-width: 920px) {
+  .container { padding-inline: var(--container-gutter-tablet); }
+  .section { padding-block: var(--section-y-tablet); }
+  .hero-grid,
+  .detail-layout { grid-template-columns: 1fr; }
+  .category-grid,
+  .workflow-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .container { padding-inline: var(--container-gutter-phone); }
+  .section { padding-block: var(--section-y-phone); }
+  .topnav-inner { min-height: 64px; }
+  .menu-toggle { display: block; }
+  .nav-links {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 64px;
+    background: var(--surface);
+    border: 0;
+    border-bottom: 3px solid var(--border);
+  }
+  .nav-links[data-open="true"] { display: grid; }
+  .nav-links a {
+    min-height: 48px;
+    border-right: 0;
+    border-top: 2px solid var(--border);
+  }
+  .display { font-size: clamp(var(--text-2xl), 16vw, var(--text-3xl)); }
+  .lead { font-size: var(--text-base); }
+  .stat-board { grid-template-columns: 1fr; }
+  .stat { min-height: auto; border-right: 0; border-bottom: 3px solid var(--border); }
+  .stat:last-child { border-bottom: 0; }
+  .section-head { display: grid; gap: var(--space-3); }
+  .tool-grid { grid-template-columns: 1fr; }
+  .filter-bar { grid-template-columns: 1fr; }
+  .fact-list { grid-template-columns: 1fr; }
+  .fact-list dt { border-right: 0; background: var(--bg); }
+  .prev-next { grid-template-columns: 1fr; }
+  .footer-inner { display: grid; }
+}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문으로 이동</a>
+  <header class="topnav" data-od-id="topnav">
+    <div class="container topnav-inner">
+      <a class="logo" href="index.html" aria-label="DH Standard 홈" style="--logo-size: var(--text-lg);">
+        <span class="logo-mark">DH</span>
+        <span>DH_STANDARD</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
+      <nav class="nav-links" id="site-nav" aria-label="주요 탐색">
+        <a href="architecture.html">ARCH</a>
+        <a href="structure.html">STR</a>
+        <a href="sheet-general.html">SHEET</a>
+        <a href="index.html#categories">ALL TOOLS</a>
+      </nav>
+    </div>
+  </header>
+  <main id="content">
+    <section class="hero" data-od-id="hero">
+      <div class="container">
+        <p class="eyebrow">STR · TOOL INDEX</p>
+        <h1 class="display" style="--display-size: clamp(32px, 6vw, 64px);">구조<br />기능 목록.</h1>
+        <p class="lead">레벨 설정부터 분할, 슬래브 정렬, 태깅과 수정까지 구조 모델링 흐름을 다룹니다.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#catalog">기능 찾기</a>
+          <a class="btn btn-secondary" href="index.html">메인 안내</a>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="catalog" data-od-id="catalog">
+      <div class="container">
+        <div class="section-head">
+          <h2>20개 도구.</h2>
+          <p>실제 리본 구성의 작업 묶음을 유지했습니다. 검색하거나 그룹 필터를 눌러 상세 페이지로 이동하세요.</p>
+        </div>
+        <div class="filter-bar">
+          <input class="search" id="tool-search" type="search" placeholder="구조 기능 검색" aria-label="구조 기능 검색" />
+          <button class="btn btn-secondary" id="clear-search" type="button">검색 초기화</button>
+        </div>
+        <div class="chips" role="group" aria-label="그룹 필터">
+          <button class="chip" type="button" data-filter="all" aria-pressed="true">ALL · 20</button>
+          <button class="chip" type="button" data-filter="1단계 · 모델링 틀 잡기" aria-pressed="false">1단계 · 모델링 틀 잡기</button>
+          <button class="chip" type="button" data-filter="2단계 · 분할" aria-pressed="false">2단계 · 분할</button>
+          <button class="chip" type="button" data-filter="2단계 · 정렬" aria-pressed="false">2단계 · 정렬</button>
+          <button class="chip" type="button" data-filter="2단계 · 슬래브" aria-pressed="false">2단계 · 슬래브</button>
+          <button class="chip" type="button" data-filter="2단계 · 개구부 · 기타" aria-pressed="false">2단계 · 개구부 · 기타</button>
+          <button class="chip" type="button" data-filter="3단계 · 시트 작업" aria-pressed="false">3단계 · 시트 작업</button>
+          <button class="chip" type="button" data-filter="4단계 · 수정" aria-pressed="false">4단계 · 수정</button>
+        </div>
+        <p class="result-note" id="result-note">20개 기능 표시 중</p>
+        <div class="tool-grid" style="margin-top: var(--space-4);">
+<article class="tool-card" data-tool data-category="structure" data-group="1단계 · 모델링 틀 잡기" data-search="sl creator sl_creator 1단계 · 모델링 틀 잡기 선택한 fl 레벨의 층별 기준마감두께를 기준으로 대응하는 sl 레벨을 생성하거나 위치를 갱신합니다. 단면도, 입면도 또는 3d 뷰에서 실행하세요.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">01</span>
+        <span class="meta">STR · 1단계 · 모델링 틀 잡기</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-sl-creator.html">SL Creator</a></h3>
+      <p>선택한 FL 레벨의 층별 기준마감두께를 기준으로 대응하는 SL 레벨을 생성하거나 위치를 갱신합니다. 단면도, 입면도 또는 3D 뷰에서 실행하세요.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">455 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="1단계 · 모델링 틀 잡기" data-search="slab to sl slab to sl 1단계 · 모델링 틀 잡기 선택한 구조 바닥을 가장 가까운 sl 레벨로 변경하고 레벨로부터의 높이 오프셋을 0으로 맞춥니다. 실행 전 구조 항목이 체크된 슬래브를 선택하세요.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">02</span>
+        <span class="meta">STR · 1단계 · 모델링 틀 잡기</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-slab-to-sl.html">Slab to SL</a></h3>
+      <p>선택한 구조 바닥을 가장 가까운 SL 레벨로 변경하고 레벨로부터의 높이 오프셋을 0으로 맞춥니다. 실행 전 구조 항목이 체크된 슬래브를 선택하세요.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">66 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="2단계 · 분할" data-search="[s]slab splitter [s]slab splitter 2단계 · 분할 선택한 슬래브를 선택된 그리드, 보, 상세선 또는 룸 경계 기준으로 분할하거나 재생성합니다. 실행 시 생성할 최소 조각 면적을 선택합니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">03</span>
+        <span class="meta">STR · 2단계 · 분할</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-s-slab-splitter.html">[S]Slab Splitter</a></h3>
+      <p>선택한 슬래브를 선택된 그리드, 보, 상세선 또는 룸 경계 기준으로 분할하거나 재생성합니다. 실행 시 생성할 최소 조각 면적을 선택합니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">271 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="2단계 · 분할" data-search="col splitter col splitter 2단계 · 분할 선택한 구조 기둥을 사이 레벨마다 복사하여 층별 기둥으로 분할하고 각 구간 상단의 슬래브 두께만큼 상단 오프셋을 내립니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">04</span>
+        <span class="meta">STR · 2단계 · 분할</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-col-splitter.html">COL Splitter</a></h3>
+      <p>선택한 구조 기둥을 사이 레벨마다 복사하여 층별 기둥으로 분할하고 각 구간 상단의 슬래브 두께만큼 상단 오프셋을 내립니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">91 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="2단계 · 분할" data-search="wall splitter wall splitter 2단계 · 분할 선택한 벽체를 사이 레벨마다 층별 벽체로 분할하고 접하는 슬래브 두께를 고려해 상단 오프셋을 적용합니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">05</span>
+        <span class="meta">STR · 2단계 · 분할</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-wall-splitter.html">Wall Splitter</a></h3>
+      <p>선택한 벽체를 사이 레벨마다 층별 벽체로 분할하고 접하는 슬래브 두께를 고려해 상단 오프셋을 적용합니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">89 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="2단계 · 정렬" data-search="beam-slab sync beam-slab 2단계 · 정렬 선택한 구조 보를 인접한 슬래브 면 기준으로 정렬하도록 보의 높이 오프셋 값을 조정합니다. 정렬 범위 밖의 보는 제외됩니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">06</span>
+        <span class="meta">STR · 2단계 · 정렬</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-beam-slab.html">Beam-Slab Sync</a></h3>
+      <p>선택한 구조 보를 인접한 슬래브 면 기준으로 정렬하도록 보의 높이 오프셋 값을 조정합니다. 정렬 범위 밖의 보는 제외됩니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">121 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="2단계 · 정렬" data-search="column-slab sync column-slab 2단계 · 정렬 선택한 구조 기둥의 상단과 하단을 1500mm 이내의 인접 슬래브 면에 맞도록 오프셋을 조정합니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">07</span>
+        <span class="meta">STR · 2단계 · 정렬</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-column-slab.html">Column-Slab Sync</a></h3>
+      <p>선택한 구조 기둥의 상단과 하단을 1500mm 이내의 인접 슬래브 면에 맞도록 오프셋을 조정합니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">133 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="2단계 · 정렬" data-search="wall-slab sync wall-slab 2단계 · 정렬 선택한 벽체의 상단과 하단을 1500mm 이내의 인접 슬래브 면에 맞도록 오프셋을 조정합니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">08</span>
+        <span class="meta">STR · 2단계 · 정렬</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-wall-slab.html">Wall-Slab Sync</a></h3>
+      <p>선택한 벽체의 상단과 하단을 1500mm 이내의 인접 슬래브 면에 맞도록 오프셋을 조정합니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">135 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="2단계 · 슬래브" data-search="beamsys-slab sync beamsys-slab 2단계 · 슬래브 선택한 보 시스템 영역의 구조 보 높이 오프셋을 참조하여 보 시스템의 레벨로부터의 높이를 맞춥니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">09</span>
+        <span class="meta">STR · 2단계 · 슬래브</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-beamsys-slab.html">BeamSys-Slab Sync</a></h3>
+      <p>선택한 보 시스템 영역의 구조 보 높이 오프셋을 참조하여 보 시스템의 레벨로부터의 높이를 맞춥니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">67 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="2단계 · 슬래브" data-search="slab down slab down 2단계 · 슬래브 건축 링크 바닥의 마감 두께와 레벨 기준 마감 두께를 읽어 구조 슬래브의 높이 오프셋을 자동 보정합니다. fin_thk, 층별 기준마감두께 매개변수와 사용할 수 있는 3d 뷰가 필요합니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">10</span>
+        <span class="meta">STR · 2단계 · 슬래브</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-slab-down.html">Slab Down</a></h3>
+      <p>건축 링크 바닥의 마감 두께와 레벨 기준 마감 두께를 읽어 구조 슬래브의 높이 오프셋을 자동 보정합니다. Fin_THK, 층별 기준마감두께 매개변수와 사용할 수 있는 3D 뷰가 필요합니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">164 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="2단계 · 슬래브" data-search="topping topping 2단계 · 슬래브 3d 뷰에서 구조 바닥 위쪽의 링크 바닥까지 거리를 측정해 덧침 매개변수에 입력하고, 값별 덧침 뷰 필터를 자동 생성합니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">11</span>
+        <span class="meta">STR · 2단계 · 슬래브</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-topping.html">Topping</a></h3>
+      <p>3D 뷰에서 구조 바닥 위쪽의 링크 바닥까지 거리를 측정해 덧침 매개변수에 입력하고, 값별 덧침 뷰 필터를 자동 생성합니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">128 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="2단계 · 개구부 · 기타" data-search="copy door famver copy door famver 2단계 · 개구부 · 기타 선택한 건축 링크의 문 위치와 폭, 높이를 sync door openings 패밀리 인스턴스로 동기화합니다. 기존 인스턴스는 정렬하고 사라진 문에 해당하는 인스턴스는 삭제합니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">12</span>
+        <span class="meta">STR · 2단계 · 개구부 · 기타</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-copy-door-famver.html">Copy Door famVer</a></h3>
+      <p>선택한 건축 링크의 문 위치와 폭, 높이를 Sync Door Openings 패밀리 인스턴스로 동기화합니다. 기존 인스턴스는 정렬하고 사라진 문에 해당하는 인스턴스는 삭제합니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">317 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="2단계 · 개구부 · 기타" data-search="merge slab merge slab 2단계 · 개구부 · 기타 선택한 두 개 이상의 바닥 하단 경계를 모아 하나의 슬래브로 다시 생성합니다. 병합할 바닥의 하단 높이가 같아야 합니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">13</span>
+        <span class="meta">STR · 2단계 · 개구부 · 기타</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-merge-slab.html">Merge Slab</a></h3>
+      <p>선택한 두 개 이상의 바닥 하단 경계를 모아 하나의 슬래브로 다시 생성합니다. 병합할 바닥의 하단 높이가 같아야 합니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">119 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="2단계 · 개구부 · 기타" data-search="place lb place lb 2단계 · 개구부 · 기타 sync door openings 개구부를 기준으로 선택한 보 패밀리의 인방보를 생성하고 갱신합니다. 벽 두께에 맞는 타입을 선택하며 사라진 개구부의 인방보는 삭제합니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">14</span>
+        <span class="meta">STR · 2단계 · 개구부 · 기타</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-place-lb.html">Place LB</a></h3>
+      <p>Sync Door Openings 개구부를 기준으로 선택한 보 패밀리의 인방보를 생성하고 갱신합니다. 벽 두께에 맞는 타입을 선택하며 사라진 개구부의 인방보는 삭제합니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">282 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="3단계 · 시트 작업" data-search="col mark aligned col mark aligned 3단계 · 시트 작업 선택한 구조 기둥 또는 현재 뷰의 구조 기둥에 선택한 태그를 지정 위치와 오프셋으로 일괄 배치합니다. 이미 태그가 있는 기둥은 건너뜁니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">15</span>
+        <span class="meta">STR · 3단계 · 시트 작업</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-col-mark-aligned.html">Col Mark Aligned</a></h3>
+      <p>선택한 구조 기둥 또는 현재 뷰의 구조 기둥에 선택한 태그를 지정 위치와 오프셋으로 일괄 배치합니다. 이미 태그가 있는 기둥은 건너뜁니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">177 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="3단계 · 시트 작업" data-search="csv to list csv list to beam 3단계 · 시트 작업 보 일람표 csv의 부재명과 단면 정보를 읽어 선택한 rc, st, hf, bhf 구조 프레이밍 패밀리에 보 타입을 생성하고 치수와 구조부호를 입력합니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">16</span>
+        <span class="meta">STR · 3단계 · 시트 작업</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-csv-list-to-beam.html">CSV to List</a></h3>
+      <p>보 일람표 CSV의 부재명과 단면 정보를 읽어 선택한 RC, ST, HF, BHF 구조 프레이밍 패밀리에 보 타입을 생성하고 치수와 구조부호를 입력합니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">269 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="3단계 · 시트 작업" data-search="frame unjoin frame unjoin 3단계 · 시트 작업 선택한 구조 프레이밍 요소의 시작점과 끝점에 자동 결합 금지를 일괄 적용합니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">17</span>
+        <span class="meta">STR · 3단계 · 시트 작업</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-frame-unjoin.html">Frame UnJoin</a></h3>
+      <p>선택한 구조 프레이밍 요소의 시작점과 끝점에 자동 결합 금지를 일괄 적용합니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">51 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="3단계 · 시트 작업" data-search="slab mark center slab mark center 3단계 · 시트 작업 선택한 바닥의 형상 중심에 원하는 바닥 태그를 지시선 없이 배치합니다. 태그 타입과 방향을 선택할 수 있으며 현재 뷰에 이미 태그가 있는 바닥은 제외합니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">18</span>
+        <span class="meta">STR · 3단계 · 시트 작업</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-slab-mark-center.html">Slab Mark Center</a></h3>
+      <p>선택한 바닥의 형상 중심에 원하는 바닥 태그를 지시선 없이 배치합니다. 태그 타입과 방향을 선택할 수 있으며 현재 뷰에 이미 태그가 있는 바닥은 제외합니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">151 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="4단계 · 수정" data-search="flatten beam flatten beam 4단계 · 수정 선택한 직선 구조 보의 양 끝점 높이를 낮은 쪽 높이로 맞추어 수평 보로 변경합니다. 곡선 보와 이미 수평인 보는 변경하지 않습니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">19</span>
+        <span class="meta">STR · 4단계 · 수정</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-flatten-beam.html">Flatten Beam</a></h3>
+      <p>선택한 직선 구조 보의 양 끝점 높이를 낮은 쪽 높이로 맞추어 수평 보로 변경합니다. 곡선 보와 이미 수평인 보는 변경하지 않습니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">64 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+<article class="tool-card" data-tool data-category="structure" data-group="4단계 · 수정" data-search="reset bsys #reset bsys 4단계 · 수정 선택한 보 시스템의 고정 상태를 임시 해제하고 배치 규칙 또는 보 타입을 재설정한 뒤 기존 고정 상태를 복원합니다.">
+    <div>
+      <div class="tool-card-top">
+        <span class="tool-mark">20</span>
+        <span class="meta">STR · 4단계 · 수정</span>
+      </div>
+      <h3 style="margin-top: var(--space-5);"><a href="details/structure-reset-bsys.html">Reset Bsys</a></h3>
+      <p>선택한 보 시스템의 고정 상태를 임시 해제하고 배치 규칙 또는 보 타입을 재설정한 뒤 기존 고정 상태를 복원합니다.</p>
+    </div>
+    <div>
+      <div class="tags">
+        <span class="tag">89 LINES</span>
+        <span class="tag">MODEL WRITE</span>
+      </div>
+      <p class="result-note" style="margin-top: var(--space-4);">상세 구현 보기 →</p>
+    </div>
+  </article>
+        </div>
+        <div class="empty-state" id="empty-state">검색 조건에 맞는 기능이 없습니다.</div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer" data-od-id="footer">
+    <div class="container footer-inner">
+      <strong>DH_STANDARD.extension</strong>
+      <span>pyRevit 기능 안내 · 현재 배포본 기준</span>
+    </div>
+  </footer>
+  <script>
+  const menuButton = document.querySelector(".menu-toggle");
+  const siteNav = document.querySelector(".nav-links");
+  if (menuButton && siteNav) {
+    menuButton.addEventListener("click", () => {
+      const isOpen = siteNav.dataset.open === "true";
+      siteNav.dataset.open = String(!isOpen);
+      menuButton.setAttribute("aria-expanded", String(!isOpen));
+    });
+  }
+  const searchInput = document.querySelector("#tool-search");
+  const clearButton = document.querySelector("#clear-search");
+  const chips = [...document.querySelectorAll("[data-filter]")];
+  const toolCards = [...document.querySelectorAll("[data-tool]")];
+  const resultNote = document.querySelector("#result-note");
+  const emptyState = document.querySelector("#empty-state");
+  let activeFilter = "all";
+  const applyFilters = () => {
+    const query = (searchInput?.value || "").trim().toLowerCase();
+    let visible = 0;
+    toolCards.forEach((card) => {
+      const groupMatch = activeFilter === "all" || card.dataset.group === activeFilter;
+      const textMatch = !query || card.dataset.search.includes(query);
+      card.hidden = !(groupMatch && textMatch);
+      if (!card.hidden) visible += 1;
+    });
+    if (resultNote) resultNote.textContent = visible + "개 기능 표시 중";
+    if (emptyState) emptyState.style.display = visible ? "none" : "block";
+  };
+  searchInput?.addEventListener("input", applyFilters);
+  clearButton?.addEventListener("click", () => {
+    searchInput.value = "";
+    searchInput.focus();
+    applyFilters();
+  });
+  chips.forEach((chip) => chip.addEventListener("click", () => {
+    activeFilter = chip.dataset.filter;
+    chips.forEach((item) => item.setAttribute("aria-pressed", String(item === chip)));
+    applyFilters();
+  }));
+  </script>
+</body>
+</html>

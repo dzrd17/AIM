@@ -1,0 +1,81 @@
+
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Final Layout Update | DH Standard</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --surface: #ffffff;
+      --surface-warm: #ffef5a;
+      --fg: #000000;
+      --border: #000000;
+      --font-display: Arial Black, Impact, sans-serif;
+      --font-body: Arial, Helvetica, sans-serif;
+      --font-mono: "Courier New", ui-monospace, monospace;
+    }
+    body { background: var(--bg); color: var(--fg); font-family: var(--font-body); margin: 0; padding: 40px; }
+    .container { max-width: 800px; margin: 0 auto; }
+    
+    /* 로고 영역: Inspect에서 --logo-size 수정 가능 */
+    .logo { 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 12px; 
+      font-family: var(--font-display); 
+      white-space: nowrap;
+      font-size: var(--logo-size, 20px);
+      border: 3px solid var(--border);
+      padding: 10px 20px;
+      background: var(--surface);
+      margin-bottom: 40px;
+    }
+
+    /* 히어로 제목: Inspect에서 --display-size 수정 가능 */
+    .display {
+      font-family: var(--font-display);
+      font-size: var(--display-size, 64px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      white-space: nowrap;
+      margin: 0 0 24px 0;
+      display: inline-block;
+    }
+
+    .card { background: var(--surface); border: 3px solid var(--border); padding: 24px; margin-bottom: 24px; box-shadow: 8px 8px 0 #000; }
+    .success-badge { display: inline-block; padding: 8px 16px; background: #00b050; color: white; font-weight: 700; margin-bottom: 24px; }
+    .hint-box { background: var(--surface-warm); padding: 16px; border: 2px solid var(--border); font-family: var(--font-mono); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="success-badge">INSPECT MODE ENABLED</div>
+    
+    <!-- 로고 예시 -->
+    <div class="logo" style="--logo-size: 24px;">
+      <span>DH_STANDARD</span>
+    </div>
+
+    <!-- 제목 예시 -->
+    <h1 class="display" style="--display-size: 64px;">반복 작업을 버튼으로 끝낸다.</h1>
+
+    <div class="card">
+      <h2>실시간 스타일 조정 안내</h2>
+      <p>아래 박스의 안내에 따라 브라우저 검사 도구에서 직접 크기를 조절해 보세요.</p>
+      <div class="hint-box">
+        // [검사] 도구 사용법<br>
+        1. 위 'DH_STANDARD' 로고 클릭 -> --logo-size 변경<br>
+        2. 위 '반복 작업...' 제목 클릭 -> --display-size 변경<br>
+        * white-space: nowrap 적용으로 줄바꿈이 일어나지 않습니다.
+      </div>
+    </div>
+
+    <div style="font-family: var(--font-mono); font-size: 12px; color: #666; margin-top: 40px; border-top: 1px solid #ccc; pt: 20px;">
+      Target Files: index.html, details/*.html, etc.<br>
+      Update: Inline CSS Variable Injection for Direct Inspection
+    </div>
+  </div>
+</body>
+</html>

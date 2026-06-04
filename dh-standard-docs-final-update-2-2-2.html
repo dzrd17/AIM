@@ -1,0 +1,99 @@
+
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hero Layout Refined | DH Standard</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --surface: #ffffff;
+      --surface-warm: #ffef5a;
+      --fg: #000000;
+      --border: #000000;
+      --font-display: Arial Black, Impact, sans-serif;
+      --font-body: Arial, Helvetica, sans-serif;
+      --font-mono: "Courier New", ui-monospace, monospace;
+    }
+    body { background: var(--bg); color: var(--fg); font-family: var(--font-body); margin: 0; padding: 40px; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    
+    /* 히어로 그리드: 왼쪽(타이틀) 1.5 : 오른쪽(통계) 0.65 */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.65fr);
+      gap: 40px;
+      align-items: center;
+    }
+
+    /* 통계 보드: 가로 3줄(세로로 쌓임)로 우측 배치 */
+    .stat-board {
+      display: grid;
+      grid-template-columns: 1fr;
+      background: var(--surface);
+      border: 3px solid var(--border);
+      box-shadow: 8px 8px 0 #000;
+    }
+    .stat {
+      padding: 16px 24px;
+      border-bottom: 3px solid var(--border);
+    }
+    .stat:last-child { border-bottom: 0; }
+    .stat strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(32px, 5vw, 55px);
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      letter-spacing: -0.05em;
+    }
+    .stat span {
+      display: block;
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: #666;
+    }
+
+    .display {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 8vw, 55px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin-bottom: 24px;
+    }
+    .lead { font-size: 18px; color: #444; max-width: 500px; }
+    .success-badge { display: inline-block; padding: 8px 16px; background: #00b050; color: white; font-weight: 700; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="success-badge">HERO LAYOUT & DATE UPDATED</div>
+    
+    <div class="hero-grid">
+      <div>
+        <h1 class="display">반복 작업을<br>버튼으로 끝낸다.</h1>
+        <p class="lead">DH_Standard.extension의 배포 스크립트를 탐색하고 작동에 필요한 데이터 명세를 확인합니다.</p>
+      </div>
+
+      <!-- 우측 배치된 3줄 통계 -->
+      <div class="stat-board">
+        <div class="stat">
+          <strong>45</strong>
+          <span>현재 실행 스크립트</span>
+        </div>
+        <div class="stat">
+          <strong>03</strong>
+          <span>리본 탭</span>
+        </div>
+        <div class="stat">
+          <strong style="font-size: 32px;">2026.06 기준</strong>
+          <span>현재 배포본 업데이트</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

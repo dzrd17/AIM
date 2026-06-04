@@ -1,0 +1,633 @@
+{
+  "schema": "open-design.design-manifest.v1",
+  "title": "c19bc222-bce9-4d6b-94db-f005cfd049da",
+  "entryFile": "index.html",
+  "sourceFiles": {
+    "all": [
+      "architecture.html",
+      "details/architecture-a-slab-splitter.html",
+      "details/architecture-apply-room-finish.html",
+      "details/architecture-areafromrooms.html",
+      "details/architecture-auto-numbering.html",
+      "details/architecture-boundary-finish.html",
+      "details/architecture-createareaplan.html",
+      "details/architecture-excel-to-fin-type.html",
+      "details/architecture-export-to-excel.html",
+      "details/architecture-finish-type.html",
+      "details/architecture-import-from-excel.html",
+      "details/architecture-join-fin-door.html",
+      "details/architecture-linked-line.html",
+      "details/architecture-room-schedule.html",
+      "details/sheet-general-ceilingtolinkedslabhatch.html",
+      "details/sheet-general-copy-view.html",
+      "details/sheet-general-create-sheet.html",
+      "details/sheet-general-crop-view.html",
+      "details/sheet-general-fam-type-transfer.html",
+      "details/sheet-general-grid-flip.html",
+      "details/sheet-general-purge-dwg.html",
+      "details/sheet-general-selctsimilar.html",
+      "details/sheet-general-seldup.html",
+      "details/sheet-general-super-jj.html",
+      "details/sheet-general-super-uj.html",
+      "details/sheet-general-sync-sheet-elements.html",
+      "details/structure-beam-slab.html",
+      "details/structure-beamsys-slab.html",
+      "details/structure-col-mark-aligned.html",
+      "details/structure-col-splitter.html",
+      "details/structure-column-slab.html",
+      "details/structure-copy-door-famver.html",
+      "details/structure-csv-list-to-beam.html",
+      "details/structure-flatten-beam.html",
+      "details/structure-frame-unjoin.html",
+      "details/structure-merge-slab.html",
+      "details/structure-place-lb.html",
+      "details/structure-reset-bsys.html",
+      "details/structure-s-slab-splitter.html",
+      "details/structure-sl-creator.html",
+      "details/structure-slab-down.html",
+      "details/structure-slab-mark-center.html",
+      "details/structure-slab-to-sl.html",
+      "details/structure-topping.html",
+      "details/structure-wall-slab.html",
+      "details/structure-wall-splitter.html",
+      "dh-standard-docs-final-stats-fix.html",
+      "dh-standard-docs-final-update-2-2-2.html",
+      "dh-standard-docs-final-update-2-2.html",
+      "dh-standard-docs-final-update-2.html",
+      "dh-standard-docs-final-update.html",
+      "dh-standard-docs-media-update.html",
+      "dh-standard-docs-update.html",
+      "dh-standard-pyrevit-docs-final.html",
+      "dh-standard-pyrevit-docs.html",
+      "generate-site.js",
+      "index.html",
+      "media/architecture-apply-room-finish.gif",
+      "media/architecture-auto-numbering.gif",
+      "media/architecture-boundary-finish.gif",
+      "media/architecture-boundary-finish.mp4",
+      "media/architecture-excel-to-fin-type.gif",
+      "media/architecture-export-to-excel.gif",
+      "media/architecture-finish-type.gif",
+      "media/architecture-finish-type.mp4",
+      "media/architecture-join-fin-door.gif",
+      "media/architecture-join-fin-door.mp4",
+      "media/architecture-linked-line.gif",
+      "media/architecture-linked-line.mp4",
+      "media/architecture-room-schedule.gif",
+      "media/structure-col-splitter.gif",
+      "media/structure-copy-door-famver.gif",
+      "media/structure-copy-door-famver.mp4",
+      "media/structure-merge-slab.gif",
+      "media/structure-s-slab-splitter.gif",
+      "media/structure-sl-creator.gif",
+      "media/structure-slab-to-sl.gif",
+      "media/structure-wall-splitter.gif",
+      "mpw63n3s-image.png",
+      "mpw6466d-image.png",
+      "mpw64i1z-image.png",
+      "mpw8qh7y-drawing-2026-06-02T06-12-38-433Z.png",
+      "mpwb3ty0-drawing-2026-06-02T07-19-00-684Z.png",
+      "mpwb4s2z-drawing-2026-06-02T07-19-44-934Z.png",
+      "mpypz8em-image.png",
+      "mpyqhqmg-drawing-2026-06-04T00-05-16-162Z.png",
+      "mpyt0k1m-drawing-2026-06-04T01-15-53-332Z.png",
+      "sheet-general.html",
+      "site-summary.json",
+      "structure.html"
+    ],
+    "html": [
+      "architecture.html",
+      "details/architecture-a-slab-splitter.html",
+      "details/architecture-apply-room-finish.html",
+      "details/architecture-areafromrooms.html",
+      "details/architecture-auto-numbering.html",
+      "details/architecture-boundary-finish.html",
+      "details/architecture-createareaplan.html",
+      "details/architecture-excel-to-fin-type.html",
+      "details/architecture-export-to-excel.html",
+      "details/architecture-finish-type.html",
+      "details/architecture-import-from-excel.html",
+      "details/architecture-join-fin-door.html",
+      "details/architecture-linked-line.html",
+      "details/architecture-room-schedule.html",
+      "details/sheet-general-ceilingtolinkedslabhatch.html",
+      "details/sheet-general-copy-view.html",
+      "details/sheet-general-create-sheet.html",
+      "details/sheet-general-crop-view.html",
+      "details/sheet-general-fam-type-transfer.html",
+      "details/sheet-general-grid-flip.html",
+      "details/sheet-general-purge-dwg.html",
+      "details/sheet-general-selctsimilar.html",
+      "details/sheet-general-seldup.html",
+      "details/sheet-general-super-jj.html",
+      "details/sheet-general-super-uj.html",
+      "details/sheet-general-sync-sheet-elements.html",
+      "details/structure-beam-slab.html",
+      "details/structure-beamsys-slab.html",
+      "details/structure-col-mark-aligned.html",
+      "details/structure-col-splitter.html",
+      "details/structure-column-slab.html",
+      "details/structure-copy-door-famver.html",
+      "details/structure-csv-list-to-beam.html",
+      "details/structure-flatten-beam.html",
+      "details/structure-frame-unjoin.html",
+      "details/structure-merge-slab.html",
+      "details/structure-place-lb.html",
+      "details/structure-reset-bsys.html",
+      "details/structure-s-slab-splitter.html",
+      "details/structure-sl-creator.html",
+      "details/structure-slab-down.html",
+      "details/structure-slab-mark-center.html",
+      "details/structure-slab-to-sl.html",
+      "details/structure-topping.html",
+      "details/structure-wall-slab.html",
+      "details/structure-wall-splitter.html",
+      "dh-standard-docs-final-stats-fix.html",
+      "dh-standard-docs-final-update-2-2-2.html",
+      "dh-standard-docs-final-update-2-2.html",
+      "dh-standard-docs-final-update-2.html",
+      "dh-standard-docs-final-update.html",
+      "dh-standard-docs-media-update.html",
+      "dh-standard-docs-update.html",
+      "dh-standard-pyrevit-docs-final.html",
+      "dh-standard-pyrevit-docs.html",
+      "index.html",
+      "sheet-general.html",
+      "structure.html"
+    ],
+    "css": [],
+    "scriptsAndComponents": [
+      "generate-site.js"
+    ],
+    "assets": [
+      "media/architecture-apply-room-finish.gif",
+      "media/architecture-auto-numbering.gif",
+      "media/architecture-boundary-finish.gif",
+      "media/architecture-boundary-finish.mp4",
+      "media/architecture-excel-to-fin-type.gif",
+      "media/architecture-export-to-excel.gif",
+      "media/architecture-finish-type.gif",
+      "media/architecture-finish-type.mp4",
+      "media/architecture-join-fin-door.gif",
+      "media/architecture-join-fin-door.mp4",
+      "media/architecture-linked-line.gif",
+      "media/architecture-linked-line.mp4",
+      "media/architecture-room-schedule.gif",
+      "media/structure-col-splitter.gif",
+      "media/structure-copy-door-famver.gif",
+      "media/structure-copy-door-famver.mp4",
+      "media/structure-merge-slab.gif",
+      "media/structure-s-slab-splitter.gif",
+      "media/structure-sl-creator.gif",
+      "media/structure-slab-to-sl.gif",
+      "media/structure-wall-splitter.gif",
+      "mpw63n3s-image.png",
+      "mpw6466d-image.png",
+      "mpw64i1z-image.png",
+      "mpw8qh7y-drawing-2026-06-02T06-12-38-433Z.png",
+      "mpwb3ty0-drawing-2026-06-02T07-19-00-684Z.png",
+      "mpwb4s2z-drawing-2026-06-02T07-19-44-934Z.png",
+      "mpypz8em-image.png",
+      "mpyqhqmg-drawing-2026-06-04T00-05-16-162Z.png",
+      "mpyt0k1m-drawing-2026-06-04T01-15-53-332Z.png",
+      "site-summary.json"
+    ]
+  },
+  "screens": [
+    {
+      "file": "architecture.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/architecture-a-slab-splitter.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/architecture-apply-room-finish.html",
+      "role": "product-screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/architecture-areafromrooms.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/architecture-auto-numbering.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/architecture-boundary-finish.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/architecture-createareaplan.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/architecture-excel-to-fin-type.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/architecture-export-to-excel.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/architecture-finish-type.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/architecture-import-from-excel.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/architecture-join-fin-door.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/architecture-linked-line.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/architecture-room-schedule.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/sheet-general-ceilingtolinkedslabhatch.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/sheet-general-copy-view.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/sheet-general-create-sheet.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/sheet-general-crop-view.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/sheet-general-fam-type-transfer.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/sheet-general-grid-flip.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/sheet-general-purge-dwg.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/sheet-general-selctsimilar.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/sheet-general-seldup.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/sheet-general-super-jj.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/sheet-general-super-uj.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/sheet-general-sync-sheet-elements.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-beam-slab.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-beamsys-slab.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-col-mark-aligned.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-col-splitter.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-column-slab.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-copy-door-famver.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-csv-list-to-beam.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-flatten-beam.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-frame-unjoin.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-merge-slab.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-place-lb.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-reset-bsys.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-s-slab-splitter.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-sl-creator.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-slab-down.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-slab-mark-center.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-slab-to-sl.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-topping.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-wall-slab.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "details/structure-wall-splitter.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "dh-standard-docs-final-stats-fix.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "dh-standard-docs-final-update-2-2-2.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "dh-standard-docs-final-update-2-2.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "dh-standard-docs-final-update-2.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "dh-standard-docs-final-update.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "dh-standard-docs-media-update.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "dh-standard-docs-update.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "dh-standard-pyrevit-docs-final.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "dh-standard-pyrevit-docs.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "index.html",
+      "role": "launcher-overview",
+      "implementationNote": "Use this as the navigation/overview entry only; implement each linked screen file as its own route/surface."
+    },
+    {
+      "file": "sheet-general.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "structure.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    }
+  ],
+  "screenFilePolicy": {
+    "mode": "screen-file-first",
+    "entryFileRole": "launcher-overview",
+    "rules": [
+      "Each distinct user-facing screen or surface must be delivered and implemented as its own file/route.",
+      "If a landing page is present or requested, keep it in landing.html and do not merge it into the product app screen.",
+      "When multiple HTML screens exist, index.html is a launcher/overview only; it must not be treated as the combined final UI.",
+      "Keep product app screens, landing pages, platform screens, and OS widget surfaces separate in production code."
+    ]
+  },
+  "appModules": [
+    "Identify domain-specific in-app modules from the exported UI; do not reduce them to generic cards.",
+    "For each major module, implement purpose, default/loading/empty/error/success states, and responsive behavior.",
+    "Keep app modules separate from OS home-screen widgets in the production component model."
+  ],
+  "osWidgets": [
+    "If the export includes home-screen, lock-screen, Live Activity, tablet glance, or Android widget surfaces, implement them as platform quick-access surfaces outside the app UI.",
+    "If none are present, do not invent OS widgets unless the product requirements request them."
+  ],
+  "landingPage": {
+    "detection": "Inspect files and screen names for a marketing/landing page surface. If present, keep it separate from product app screens.",
+    "requiredSections": [
+      "hero",
+      "value props",
+      "product proof/screenshots",
+      "feature proof",
+      "CTA"
+    ]
+  },
+  "tokens": {
+    "source": [
+      "index.html"
+    ],
+    "required": [
+      "background",
+      "surface",
+      "foreground",
+      "muted text",
+      "border",
+      "accent",
+      "radius",
+      "shadow",
+      "spacing",
+      "type scale",
+      "motion"
+    ],
+    "note": "Extract/freeze tokens before framework implementation so coding tools do not substitute default theme colors or typography."
+  },
+  "interactions": {
+    "source": [
+      "generate-site.js"
+    ],
+    "requiredStates": [
+      "default",
+      "hover",
+      "focus",
+      "active",
+      "disabled",
+      "loading",
+      "empty",
+      "error",
+      "success"
+    ],
+    "requiredBehaviors": [
+      "forms/validation where present",
+      "tabs/filters where present",
+      "dialogs/sheets/drawers where present",
+      "copy/generate/share actions where present",
+      "player or quick controls where present"
+    ],
+    "note": "If the prototype is static, derive missing behavior from visible controls and document it before coding."
+  },
+  "responsiveViewports": [
+    {
+      "name": "mobile-compact",
+      "width": 360,
+      "height": 800,
+      "category": "mobile",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "mobile-standard",
+      "width": 390,
+      "height": 844,
+      "category": "mobile",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "mobile-large",
+      "width": 430,
+      "height": 932,
+      "category": "mobile",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "foldable-small-tablet",
+      "width": 600,
+      "height": 960,
+      "category": "foldable-tablet",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "tablet-portrait",
+      "width": 820,
+      "height": 1180,
+      "category": "tablet",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "tablet-landscape",
+      "width": 1024,
+      "height": 768,
+      "category": "tablet",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "laptop",
+      "width": 1366,
+      "height": 768,
+      "category": "desktop",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "category": "desktop",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "wide",
+      "width": 1920,
+      "height": 1080,
+      "category": "wide",
+      "mustAvoidHorizontalScroll": true
+    }
+  ],
+  "implementationChecklist": [
+    "Open entryFile first and map screens, modules, tokens, and interactions.",
+    "Extract tokens before writing framework components.",
+    "Implement app-specific modules with real states instead of generic card grids.",
+    "Preserve or rebuild JS interactions for meaningful UX actions.",
+    "Validate screenshots at desktop/tablet/mobile viewports with no horizontal overflow.",
+    "Keep landing pages, in-app modules, and OS widgets as separate implementation surfaces."
+  ]
+}
