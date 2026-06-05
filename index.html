@@ -1,9 +1,65 @@
 <!doctype html>
-<html lang="ko">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>pyRevit 기능 안내 | DH Standard</title>
+<html lang="ko"><head><script data-od-sandbox-shim="">(function(){
+  function makeStore(){
+    var data = {};
+    var api = {
+      getItem: function(k){ return Object.prototype.hasOwnProperty.call(data, k) ? data[k] : null; },
+      setItem: function(k, v){ data[k] = String(v); },
+      removeItem: function(k){ delete data[k]; },
+      clear: function(){ data = {}; },
+      key: function(i){ return Object.keys(data)[i] || null; }
+    };
+    Object.defineProperty(api, 'length', { get: function(){ return Object.keys(data).length; } });
+    return api;
+  }
+  function tryShim(name){
+    var works = false;
+    try { works = !!window[name] && typeof window[name].getItem === 'function'; void window[name].length; }
+    catch (_) { works = false; }
+    if (works) return;
+    try { Object.defineProperty(window, name, { configurable: true, value: makeStore() }); }
+    catch (_) { try { window[name] = makeStore(); } catch (__) {} }
+  }
+  tryShim('localStorage');
+  tryShim('sessionStorage');
+  document.addEventListener('click', (e) => {
+    if (!e.target || !(e.target instanceof Element)) return;
+    var link = e.target.closest('a[href]');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    if (href === null) return;
+    var isAnchor = href.startsWith('#') || href === '';
+    if (isAnchor) {
+      e.preventDefault();
+      if (href === '' || href === '#') {
+        window.scrollTo({ top: 0 });
+        history.replaceState(null, '', ' ');
+      } else {
+        var targetId = href.slice(1);
+        var target = targetId ? document.getElementById(targetId) : null;
+        if (target) {
+          target.scrollIntoView();
+          location.hash === href && history.replaceState(null, '', ' ');
+          location.hash = href;
+        }
+      }
+    } else if (link.getAttribute('target') === '_blank') {
+      e.preventDefault();
+      let safe = false;
+      try {
+        var url = new URL(href, location.href);
+        safe =
+          url.protocol === 'http:' ||
+          url.protocol === 'https:' ||
+          url.protocol === 'mailto:';
+      } catch (_) {}
+      safe && window.open(href, '_blank', 'noopener,noreferrer');
+    }
+  });
+})();</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pyRevit 기능 안내 | DH AIM</title>
   <style>
 :root {
   --bg: #f5f1e8;
@@ -647,70 +703,165 @@ summary {
   .footer-inner { display: grid; }
 }
   </style>
-</head>
+<style data-od-tweaks-bridge-style="">
+[data-od-tweaks-hidden] .tw-panel {
+  transform: translateX(calc(100% + 32px)) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.tw-restore { display: none !important; }
+</style><script data-od-tweaks-bridge="">(function(){
+  // Synchronously hide BEFORE the artifact body parses so the panel never
+  // flashes on initial paint. The host removes the attribute via postMessage
+  // once it knows the desired state.
+  document.documentElement.setAttribute('data-od-tweaks-hidden', '');
+
+  var suppressEcho = false;
+  var observer = null;
+
+  function panelEl(){ return document.querySelector('.tw-panel'); }
+
+  function applyClassesToPanel(visible){
+    var panel = panelEl();
+    if (panel) panel.classList.toggle('tw-hidden', !visible);
+  }
+
+  function setPanelVisible(visible){
+    suppressEcho = true;
+    document.documentElement.toggleAttribute('data-od-tweaks-hidden', !visible);
+    applyClassesToPanel(visible);
+    // Clear flag after the MutationObserver has had a chance to fire for this
+    // change so we don't echo our own host-driven toggles back to the host.
+    Promise.resolve().then(function(){ suppressEcho = false; });
+  }
+
+  function postState(){
+    var panel = panelEl();
+    if (!panel) return;
+    try {
+      parent.postMessage({
+        type: 'od:tweaks-panel-state',
+        visible: !panel.classList.contains('tw-hidden'),
+      }, '*');
+    } catch (e) {}
+  }
+
+  function postAvailability(){
+    try {
+      parent.postMessage({
+        type: 'od:tweaks-available',
+        available: !!panelEl(),
+      }, '*');
+    } catch (e) {}
+  }
+
+  function attachObserver(){
+    var panel = panelEl();
+    if (!panel || observer) return;
+    observer = new MutationObserver(function(){
+      if (suppressEcho) return;
+      postState();
+    });
+    observer.observe(panel, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  function onReady(){
+    // Capture the panel authored visibility BEFORE we apply the host hidden
+    // attribute. The bridge sets data-od-tweaks-hidden synchronously in head
+    // (before the body parses), so on entry to onReady the attribute is
+    // always present even though the artifact may have authored the panel
+    // as default-visible. Reading the panel class first is the only place
+    // we can still observe the author intent. Then drive the attribute,
+    // classes, and posted state from that captured value so a default
+    // visible tw-panel reports visible:true and the toolbar toggle starts
+    // ON. Issue surfaced in PR #1643 review.
+    var panel = panelEl();
+    var initialVisible = !!panel && !panel.classList.contains('tw-hidden');
+    document.documentElement.toggleAttribute('data-od-tweaks-hidden', !initialVisible);
+    applyClassesToPanel(initialVisible);
+    attachObserver();
+    postAvailability();
+    // Post the captured initial visibility so the toolbar toggle reflects
+    // the default state on mount. Without this the toggle reads OFF while
+    // a default-visible tw-panel artifact clearly shows its panel and the
+    // user would have to click toggle-on then toggle-off to actually hide.
+    postState();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', onReady);
+  } else {
+    onReady();
+  }
+
+  window.addEventListener('message', function(ev){
+    if (!ev.data || ev.data.type !== 'od:tweaks-panel-visible') return;
+    setPanelVisible(!!ev.data.visible);
+  });
+})();</script></head>
 <body>
-  <a class="skip-link" href="#content">본문으로 이동</a>
+  <a class="skip-link" href="#content" data-od-id="path-0">본문으로 이동</a>
   <header class="topnav" data-od-id="topnav">
-    <div class="container topnav-inner">
-      <a class="logo" href="index.html" aria-label="DH Standard 홈" style="--logo-size: var(--text-lg);">
+    <div class="container topnav-inner" data-od-id="path-1-0">
+      <a class="logo" href="index.html" aria-label="DH AIM 홈" style="--logo-size: var(--text-lg);" data-od-id="path-1-0-0">
         <span class="logo-mark">DH</span>
-        <span>DH_STANDARD</span>
+        <span>DH_AIM</span>
       </a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
-      <nav class="nav-links" id="site-nav" aria-label="주요 탐색">
-        <a href="architecture.html">ARCH</a>
-        <a href="structure.html">STR</a>
-        <a href="sheet-general.html">SHEET</a>
-        <a href="index.html#categories">ALL TOOLS</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-od-id="path-1-0-1">MENU</button>
+      <nav class="nav-links" id="site-nav" aria-label="주요 탐색" data-od-id="path-1-0-2">
+        <a href="architecture.html" data-od-id="path-1-0-2-0">ARCH</a>
+        <a href="structure.html" data-od-id="path-1-0-2-1">STR</a>
+        <a href="sheet-general.html" data-od-id="path-1-0-2-2">SHEET</a>
+        <a href="index.html#categories" data-od-id="path-1-0-2-3">ALL TOOLS</a>
       </nav>
     </div>
   </header>
-  <main id="content">
+  <main id="content" data-od-id="path-2">
     <section class="hero" data-od-id="hero">
-      <div class="container hero-grid">
+      <div class="container hero-grid" data-od-id="path-2-0-0">
         <div>
           <p class="eyebrow">PYREVIT · INTERNAL DOCS</p>
-          <h1 class="display" style="--display-size: clamp(32px, 6vw, 64px);">반복 작업을 버튼으로 끝낸다.</h1>
-          <p class="lead">DH_Standard.extension의 현재 배포 스크립트를 탐색하고, 작동에 필요한 패밀리나 매개변수 정보를 확인합니다.</p>
+          <h1 class="display" style="--display-size: clamp(32px, 6vw, 55px);" data-od-id="path-2-0-0-0-1">반복 작업을<br>버튼으로 끝낸다.</h1>
+          <p class="lead">DH_AIM.extension의 현재 배포 스크립트를 탐색하고, 작동에 필요한 패밀리나 매개변수 정보를 확인합니다.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#categories">작업 영역 고르기</a>
-            <a class="btn btn-secondary" href="structure.html">구조 흐름 보기</a>
+            <a class="btn btn-primary" href="#categories" data-od-id="path-2-0-0-0-3-0">작업 영역 고르기</a>
+            <a class="btn btn-secondary" href="structure.html" data-od-id="path-2-0-0-0-3-1">구조 흐름 보기</a>
           </div>
         </div>
         <div class="stat-board" aria-label="스크립트 현황">
-          <div class="stat"><strong style="--stat-size: clamp(var(--text-2xl), 5vw, var(--text-3xl))">45</strong><span>현재 실행 스크립트</span></div>
-          <div class="stat"><strong style="--stat-size: clamp(var(--text-2xl), 5vw, var(--text-3xl))">03</strong><span>리본 탭</span></div>
-          <div class="stat"><strong class="word" style="--stat-word-size: clamp(var(--text-xl), 4vw, var(--text-2xl))">2026.06 기준</strong><span>현재 배포본 기준</span></div>
+          <div class="stat"><strong style="--stat-size: clamp(var(--text-2xl), 5vw, 55px)">45</strong><span>현재 실행 스크립트</span></div>
+          <div class="stat"><strong style="--stat-size: clamp(var(--text-2xl), 5vw, 55px)">03</strong><span>리본 탭</span></div>
+          <div class="stat"><strong class="word" style="--stat-word-size: clamp(var(--text-xl), 4vw, 42px)">2026.06 기준</strong><span>현재 배포본 기준</span></div>
         </div>
       </div>
     </section>
     <section class="section" data-od-id="categories">
-      <div class="container">
+      <div class="container" data-od-id="path-2-1-0">
         <div class="section-head">
-          <h2>작업 영역부터 고른다.</h2>
+          <h2 data-od-id="path-2-1-0-0-0">작업 영역부터 고른다.</h2>
           <p>리본 탭 구조를 그대로 유지했습니다. 작업 영역을 고르면 해당 탭의 전체 목록과 검색 필터를 바로 사용할 수 있습니다.</p>
         </div>
         <div class="category-grid">
-<a class="panel category-card" href="architecture.html">
+<a class="panel category-card" href="architecture.html" data-od-id="path-2-1-0-1-0">
     <span class="tool-count">13 TOOLS</span>
     <div>
-      <h3>건축</h3>
+      <h3 data-od-id="path-2-1-0-1-0-1-0">건축</h3>
       <p>룸, 마감, 면적 경계를 실제 모델과 연결하는 건축 자동화 도구입니다.</p>
       <strong class="meta">목록 열기 →</strong>
     </div>
   </a>
-<a class="panel category-card" href="structure.html">
+<a class="panel category-card" href="structure.html" data-od-id="path-2-1-0-1-1">
     <span class="tool-count">20 TOOLS</span>
     <div>
-      <h3>구조</h3>
+      <h3 data-od-id="path-2-1-0-1-1-1-0">구조</h3>
       <p>레벨 설정부터 분할, 슬래브 정렬, 태깅과 수정까지 구조 모델링 흐름을 다룹니다.</p>
       <strong class="meta">목록 열기 →</strong>
     </div>
   </a>
-<a class="panel category-card" href="sheet-general.html">
+<a class="panel category-card" href="sheet-general.html" data-od-id="path-2-1-0-1-2">
     <span class="tool-count">12 TOOLS</span>
     <div>
-      <h3>시트 · 일반</h3>
+      <h3 data-od-id="path-2-1-0-1-2-1-0">시트 · 일반</h3>
       <p>시트 생성과 동기화, 선택 보조, 형상 결합, CAD 정리 같은 공통 작업을 모았습니다.</p>
       <strong class="meta">목록 열기 →</strong>
     </div>
@@ -719,15 +870,15 @@ summary {
       </div>
     </section>
     <section class="section" data-od-id="workflows">
-      <div class="container">
+      <div class="container" data-od-id="path-2-2-0">
         <div class="section-head">
-          <h2>도구는 흐름으로 기억한다.</h2>
+          <h2 data-od-id="path-2-2-0-0-0">도구는 흐름으로 기억한다.</h2>
           <p>개별 버튼을 외우기보다 앞뒤 순서를 함께 보면 실무 적용이 빨라집니다.</p>
         </div>
         <div class="workflow-grid">
-          <article class="tile">
+          <article class="tile" data-od-id="path-2-2-0-1-0">
             <p class="meta">ARCH · ROOM FINISH</p>
-            <h3>실내 마감표 만들기</h3>
+            <h3 data-od-id="path-2-2-0-1-0-1">실내 마감표 만들기</h3>
             <ol class="step-list">
               <li>Linked Wall Sep</li>
               <li>Fin Type by Excel</li>
@@ -737,9 +888,9 @@ summary {
               <li>Excel 내보내기 · 가져오기</li>
             </ol>
           </article>
-          <article class="tile">
+          <article class="tile" data-od-id="path-2-2-0-1-1">
             <p class="meta">STR · MODELING</p>
-            <h3>구조 모델 정렬하기</h3>
+            <h3 data-od-id="path-2-2-0-1-1-1">구조 모델 정렬하기</h3>
             <ol class="step-list">
               <li>SL Creator · Slab to SL</li>
               <li>기둥 · 벽 · 슬래브 분할</li>
@@ -748,9 +899,9 @@ summary {
               <li>개구부 · 인방보 동기화</li>
             </ol>
           </article>
-          <article class="tile">
+          <article class="tile" data-od-id="path-2-2-0-1-2">
             <p class="meta">SHEET · DELIVERY</p>
-            <h3>도면 세트 정리하기</h3>
+            <h3 data-od-id="path-2-2-0-1-2-1">도면 세트 정리하기</h3>
             <ol class="step-list">
               <li>뷰 상세 포함 복제</li>
               <li>CSV 기반 시트 생성</li>
@@ -764,8 +915,8 @@ summary {
     </section>
   </main>
   <footer class="footer" data-od-id="footer">
-    <div class="container footer-inner">
-      <strong>DH_STANDARD.extension</strong>
+    <div class="container footer-inner" data-od-id="path-3-0">
+      <strong>DH_AIM.extension</strong>
       <span>pyRevit 기능 안내 · 현재 배포본 기준</span>
     </div>
   </footer>
@@ -781,5 +932,101 @@ summary {
   }
 
   </script>
-</body>
-</html>
+
+
+<script data-od-snapshot-bridge="">(function(){
+  function copyComputedStyle(source, target){
+    if (!source || !target || source.nodeType !== 1 || target.nodeType !== 1) return;
+    var computed = window.getComputedStyle(source);
+    var style = target.getAttribute('style') || '';
+    for (var i = 0; i < computed.length; i++){
+      var prop = computed[i];
+      style += prop + ':' + computed.getPropertyValue(prop) + ';';
+    }
+    target.setAttribute('style', style);
+  }
+  function syncElementState(source, target){
+    var tag = source.tagName ? source.tagName.toLowerCase() : '';
+    if (tag === 'img' && source.currentSrc) target.setAttribute('src', source.currentSrc);
+    if (tag === 'input' || tag === 'textarea') target.setAttribute('value', source.value || '');
+    if (tag === 'canvas') {
+      try {
+        var img = document.createElement('img');
+        img.setAttribute('src', source.toDataURL('image/png'));
+        img.setAttribute('style', target.getAttribute('style') || '');
+        target.parentNode && target.parentNode.replaceChild(img, target);
+      } catch (_) {}
+    }
+  }
+  function inlineSnapshotStyles(originalRoot, cloneRoot){
+    copyComputedStyle(originalRoot, cloneRoot);
+    syncElementState(originalRoot, cloneRoot);
+    var originals = originalRoot.querySelectorAll('*');
+    var clones = cloneRoot.querySelectorAll('*');
+    var count = Math.min(originals.length, clones.length);
+    for (var i = 0; i < count; i++){
+      copyComputedStyle(originals[i], clones[i]);
+      syncElementState(originals[i], clones[i]);
+    }
+    var scripts = cloneRoot.querySelectorAll('script');
+    for (var s = scripts.length - 1; s >= 0; s--) scripts[s].remove();
+  }
+  function waitForImages(){
+    var imgs = Array.prototype.slice.call(document.images || []);
+    return Promise.all(imgs.map(function(img){
+      if (img.complete) return Promise.resolve();
+      return new Promise(function(resolve){
+        img.addEventListener('load', resolve, { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      });
+    }));
+  }
+  function renderSnapshot(id){
+    var w = Math.max(1, window.innerWidth || document.documentElement.clientWidth || 1);
+    var h = Math.max(1, window.innerHeight || document.documentElement.clientHeight || 1);
+    var dpr = window.devicePixelRatio || 1;
+    var docW = Math.max(w, document.documentElement.scrollWidth || 0, document.body ? document.body.scrollWidth : 0);
+    var docH = Math.max(h, document.documentElement.scrollHeight || 0, document.body ? document.body.scrollHeight : 0);
+    var clone = document.documentElement.cloneNode(true);
+    clone.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+    inlineSnapshotStyles(document.documentElement, clone);
+    var serializer = new XMLSerializer();
+    var html = serializer.serializeToString(clone);
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">' +
+      '<foreignObject x="' + (-window.scrollX || 0) + '" y="' + (-window.scrollY || 0) + '" width="' + docW + '" height="' + docH + '">' +
+      html +
+      '</foreignObject></svg>';
+    var img = new Image();
+    img.onload = function(){
+      try {
+        var canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.floor(w * dpr));
+        canvas.height = Math.max(1, Math.floor(h * dpr));
+        var ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error('no 2d context');
+        ctx.scale(dpr, dpr);
+        ctx.drawImage(img, 0, 0, w, h);
+        window.parent.postMessage({ type: 'od:snapshot:result', id: id, dataUrl: canvas.toDataURL('image/png'), w: canvas.width, h: canvas.height }, '*');
+      } catch (err) {
+        window.parent.postMessage({ type: 'od:snapshot:result', id: id, error: String(err && err.message || err) }, '*');
+      }
+    };
+    img.onerror = function(){
+      window.parent.postMessage({ type: 'od:snapshot:result', id: id, error: 'snapshot image failed' }, '*');
+    };
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+  window.addEventListener('message', function(ev){
+    var data = ev && ev.data;
+    if (!data || data.type !== 'od:snapshot' || !data.id) return;
+    waitForImages().then(function(){ renderSnapshot(String(data.id)); });
+  });
+})();</script><script data-od-srcdoc-transport-activation="">(function(){
+  window.addEventListener('message', function(ev){
+    var data = ev && ev.data;
+    if (!data || data.type !== 'od:srcdoc-transport-activate' || typeof data.html !== 'string') return;
+    document.open();
+    document.write(data.html);
+    document.close();
+  });
+})();</script></body></html>
